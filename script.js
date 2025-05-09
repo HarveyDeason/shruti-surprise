@@ -130,17 +130,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNCTIONS ---
 
-    const showFinalRevelation = () => {
+    const jumpToMazeStage = (stageId) => {
         // Hide initial questions and any ongoing maze progress
         allQuestionBlocks.forEach(block => block.style.display = 'none');
         if (mainQuestionsHeading) mainQuestionsHeading.style.display = 'none';
-        mazeIntroDiv.style.display = 'none';
-        mazePathDescriptionDiv.style.display = 'none';
-        mazeOptionsDiv.innerHTML = ''; // Clear any buttons/inputs
-        mazeFeedbackDiv.style.display = 'none';
+        mazeIntroDiv.style.display = 'none'; // Usually hidden by renderMazeStage, but good to be explicit
         
         mazeContainer.style.display = 'block'; // Ensure maze container is visible
-        renderMazeStage('maze_complete'); // Directly render the final stage
+        renderMazeStage(stageId); // Directly render the specified stage
     };
 
     // Initial Questions Logic
@@ -369,7 +366,10 @@ document.addEventListener('DOMContentLoaded', () => {
     q5Input.addEventListener('input', () => { checkInitialAnswer(q5Input, check5, initialCorrectAnswers.q5); checkAllInitialAnswers(); });
 
     // Check for URL hash on page load
-    if (window.location.hash === '#final_revelation') {
-        showFinalRevelation();
+    if (window.location.hash === '#path4_find_key') {
+        jumpToMazeStage('path4_find_key');
+    } else if (window.location.hash === '#final_revelation') { // Keep old one just in case, or remove if not needed
+        jumpToMazeStage('maze_complete');
     }
+    // If no specific hash, the page loads normally with initial questions.
 });
