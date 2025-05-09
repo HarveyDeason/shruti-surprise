@@ -37,6 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- MAZE DATA STRUCTURE ---
     const mazeData = [
+        { // This is the actual final stage now.
+            id: 'maze_complete',
+            isFinal: true,
+            description: 'The figure smiles warmly. "Indeed, it is Shrutie. She poured her heart into this for you." The stars in the room seem to brighten, swirling into a gentle vortex of light. The harp music swells, and you feel a sense of peace and love wash over you. The dream begins to fade, leaving behind the warmth of this carefully crafted journey.<br><br>Congratulations, you have navigated the dream maze!'
+        },
         {
             id: 'maze_start_intro',
             isIntro: true,
@@ -89,37 +94,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // They are kept in case you want to re-integrate them later or for a different puzzle.
         // For now, the maze on index.html ends after path3_dirk_url_hint.
         // The next part of the puzzle is on dirk.html.
+        // The Vigenere cipher is now an optional side-quest, not directly in the main path to completion.
+        // It can be accessed if you re-link it or if the user finds it.
         {
-            id: 'unlinked_path4_find_key', // Renamed to avoid conflict if re-used
-            description: `(This path is currently unlinked) 🛤️ Path 4, Part 1 – The Key Word Riddle<br>...`,
+            id: 'path4_find_key', // Original name restored
+            description: `🛤️ Path 4, Part 1 – The Key Word Riddle<br>The musical reflection nods, and the mirror ripples. You step through into a quiet, elegant study. A single, beautifully handwritten note sits on a polished desk. It simply reads:<br><br><p style="text-align: center; font-style: italic; font-size: 1.2em; color: #5c5046;">"Right before the fun starts…"</p><br>What single word, found in your special song, fits this description and will serve as the key?`,
             inputType: 'text',
             correctAnswer: 'GOODBYE',
-            nextStageId: 'unlinked_path4_solve_cipher',
+            nextStageId: 'path4_solve_cipher',
             hint: "I don't even think you need a clue my smart cookiee"
         },
         {
-            id: 'unlinked_path4_solve_cipher', // Renamed
-            description: `(This path is currently unlinked) Correct! The key is indeed <strong>GOODBYE</strong>.<br><br>...`,
+            id: 'path4_solve_cipher', // Original name restored
+            description: `Correct! The key is indeed <strong>GOODBYE</strong>.<br><br>As you speak the word, a hidden compartment in the desk slides open. Inside, you find a small, neatly folded slip of paper. It reads:<br><br><div style="font-family: 'Courier New', Courier, monospace; font-size: 1.8em; text-align: center; padding: 15px; border: 1px solid #c0b2a3; background-color: #fdfaf6; margin: 15px auto; letter-spacing: 0.2em; width: fit-content;">Y A W O F</div><br>A new note appears beside it: <i>"With the key <strong>GOODBYE</strong>, use the timeless art of Vigenère to decrypt the sequence above. The single word revealed will open the final door."</i>`,
             inputType: 'text',
             correctAnswer: 'SMILE',
-            nextStageId: 'unlinked_maze_complete',
-            isFinalInput: true,
+            nextStageId: 'maze_complete', // This would lead to the actual final completion.
+            isFinalInput: true, // This is the last input before completing the maze
             hint: [
                 "The decryption method is Vigenère.",
                 "Remember to align the repeating key 'GOODBYE' under the ciphertext 'YAWOF'. The formula is: Plain = (Cipher_Letter_Value - Key_Letter_Value + 26) % 26.",
                 "Numerical values: A=0, B=1, ..., Z=25. For 'Y' (Cipher) and 'G' (Key): (24 - 6 + 26) % 26 = 18, which is 'S'."
             ]
         },
-        {
-            id: 'unlinked_maze_complete', // Renamed
-            isFinal: true,
-            description: '(This path is currently unlinked) The figure smiles warmly. ... Congratulations, you have navigated the dream maze!'
-        },
-        {
-            id: 'maze_complete',
-            isFinal: true,
-            description: 'The figure smiles warmly. "Indeed, it is Shrutie. She poured her heart into this for you." The stars in the room seem to brighten, swirling into a gentle vortex of light. The harp music swells, and you feel a sense of peace and love wash over you. The dream begins to fade, leaving behind the warmth of this carefully crafted journey.<br><br>Congratulations, you have navigated the dream maze!'
-        },
+        // Note: 'maze_complete' is now defined at the beginning of mazeData for clarity.
         { // Generic wrong turn, leads back to the previous correct stage
             id: 'wrong_turn_general',
             isWrongTurn: true, // Special flag
@@ -131,6 +129,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let previousCorrectStageId = ''; // To return to after a generic wrong turn
 
     // --- FUNCTIONS ---
+
+    const showFinalRevelation = () => {
+        // Hide initial questions and any ongoing maze progress
+        allQuestionBlocks.forEach(block => block.style.display = 'none');
+        if (mainQuestionsHeading) mainQuestionsHeading.style.display = 'none';
+        mazeIntroDiv.style.display = 'none';
+        mazePathDescriptionDiv.style.display = 'none';
+        mazeOptionsDiv.innerHTML = ''; // Clear any buttons/inputs
+        mazeFeedbackDiv.style.display = 'none';
+        
+        mazeContainer.style.display = 'block'; // Ensure maze container is visible
+        renderMazeStage('maze_complete'); // Directly render the final stage
+    };
 
     // Initial Questions Logic
     const checkInitialAnswer = (inputElement, checkElement, correctAnswer) => {
@@ -357,4 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
     q4Input.addEventListener('input', () => { checkInitialAnswer(q4Input, check4, initialCorrectAnswers.q4); checkAllInitialAnswers(); });
     q5Input.addEventListener('input', () => { checkInitialAnswer(q5Input, check5, initialCorrectAnswers.q5); checkAllInitialAnswers(); });
 
+    // Check for URL hash on page load
+    if (window.location.hash === '#final_revelation') {
+        showFinalRevelation();
+    }
 });
