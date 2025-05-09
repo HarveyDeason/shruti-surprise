@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A Special Surprise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -154,10 +157,24 @@
             </div>
         </div>
 
-        <!-- Result Link -->
-        <div id="result-link" style="display: none;">
-            <p>Congratulations! You've unlocked the final surprise:</p>
-            <a href="#" id="reveal-link" target="_blank">Click Here</a>
+        <!-- Result Link (Now Maze Unlock) -->
+        <div id="maze-container" style="display: none;">
+            <h2 id="maze-title">The Dream Maze</h2>
+            <div id="maze-intro">
+                <!-- Intro text will be populated by JS -->
+            </div>
+            <div id="maze-path-description">
+                <!-- Current path description will be populated by JS -->
+            </div>
+            <div id="maze-options">
+                <!-- Options/buttons will be populated by JS -->
+            </div>
+            <div id="maze-feedback" style="display: none; color: red; margin-top: 10px;">
+                <!-- Feedback for incorrect choices -->
+            </div>
+            <div id="maze-final-room" style="display: none;">
+                <!-- Final room content will be populated by JS -->
+            </div>
         </div>
     </div>
     <script src="script.js"></script>

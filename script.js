@@ -1,65 +1,333 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Question elements
+    // Initial Question elements
     const q1Input = document.getElementById('q1');
     const q2Input = document.getElementById('q2');
     const q3Input = document.getElementById('q3');
-    const q4Input = document.getElementById('q4'); // New
-    const q5Input = document.getElementById('q5'); // New
+    const q4Input = document.getElementById('q4');
+    const q5Input = document.getElementById('q5');
     const check1 = document.getElementById('check1');
     const check2 = document.getElementById('check2');
     const check3 = document.getElementById('check3');
-    const check4 = document.getElementById('check4'); // New
-    const check5 = document.getElementById('check5'); // New
-
-    // Result elements
-    const resultLinkDiv = document.getElementById('result-link');
-    const revealLink = document.getElementById('reveal-link');
+    const check4 = document.getElementById('check4');
+    const check5 = document.getElementById('check5');
 
     // Audio/Lyrics elements
     const lyricsToggle = document.getElementById('lyrics-toggle');
     const lyricsContent = document.getElementById('lyrics-content');
-    // const audioPlayer = document.getElementById('audio-player'); // If needed for controls
 
-    // --- CONFIGURATION ---
-    // Replace these with the actual correct answers (case-sensitive for comparison)
-    const correctAnswers = {
-        q1: "Cupid",
-        q2: "Answer2",
-        q3: "Answer3",
-        q4: "Answer4", // New
-        q5: "Answer5"  // New
+    // Maze elements
+    const mazeContainer = document.getElementById('maze-container');
+    const mazeIntroDiv = document.getElementById('maze-intro');
+    const mazePathDescriptionDiv = document.getElementById('maze-path-description');
+    const mazeOptionsDiv = document.getElementById('maze-options');
+    const mazeFeedbackDiv = document.getElementById('maze-feedback');
+    const mazeFinalRoomDiv = document.getElementById('maze-final-room');
+    const allQuestionBlocks = document.querySelectorAll('.question-block');
+    const mainQuestionsHeading = document.querySelector('.container > h1'); // "Answer the Questions" heading
+
+    // --- CONFIGURATION FOR INITIAL QUESTIONS ---
+    const initialCorrectAnswers = {
+        q1: "Answer1", // Replace with actual answer
+        q2: "Answer2", // Replace with actual answer
+        q3: "Answer3", // Replace with actual answer
+        q4: "Answer4", // Replace with actual answer
+        q5: "Answer5"  // Replace with actual answer
     };
+    // --- END CONFIGURATION FOR INITIAL QUESTIONS ---
 
-    // Replace this with the actual link you want to reveal
-    const targetUrl = "https://github.com";
-    // --- END CONFIGURATION ---
+    // --- MAZE DATA STRUCTURE ---
+    const mazeData = [
+        {
+            id: 'maze_start_intro',
+            isIntro: true,
+            description: `You open your eyes inside a world stitched from memory and magic. A sticker glows on the wall, cat-shaped, with a flickering word beneath it: HARVANOS. You’re barefoot, holding a coin, and in the air you hear a soft voice singing… you recognize your own.<br><br>A sign ahead says:<br>✨ To exit the dream, follow the truths hidden in play. ✨`,
+            nextStageId: 'path1_doors'
+        },
+        {
+            id: 'path1_doors',
+            description: '🛤️ Path 1 – The Hall of Doors<br>You see three doors ahead:',
+            options: [
+                { text: 'One painted with chocolate truffle cake.', nextStageId: 'wrong_turn_general', feedback: 'The cake smells divine, but this door feels cold and unyielding. Not the way.', correct: false },
+                { text: 'One shaped like a fish skeleton.', nextStageId: 'wrong_turn_general', feedback: 'A faint, unsettling smell emanates from this door. It creaks ominously. Best to avoid.', correct: false },
+                { text: 'One glowing softly with biryani steam.', nextStageId: 'path2_coin', correct: true }
+            ]
+        },
+        {
+            id: 'path2_coin',
+            description: '🛤️ Path 2 – The Coin Flip Chamber<br>Warmth and the comforting aroma of spices lead you here. Inside is a giant golden coin spinning mid-air. A whisper says:<br>“Heads or Tails... or something else?”',
+            options: [
+                { text: 'A) Heads', nextStageId: 'wrong_turn_general', feedback: 'The coin clatters, showing heads. The whisper sighs, "A choice, but not THE choice." The coin resets.', correct: false },
+                { text: 'B) Tails', nextStageId: 'wrong_turn_general', feedback: 'Tails it is. But the air remains still. "Predictable," the whisper murmurs. The coin resets.', correct: false },
+                { text: 'C) Flip it again', nextStageId: 'path3_mirror', correct: true }
+            ]
+        },
+        {
+            id: 'path3_mirror',
+            description: '🛤️ Path 3 – The Mirror Room<br>The coin shimmers and dissolves as you make your choice, revealing a new path. You enter a room lined with mirrors. Three reflections of yourself appear, each speaking a word as you approach:<br><br>Reflection on the Left: “Business”<br>Reflection in the Middle (glowing slightly blue): “Music”<br>Reflection on the Right: “Webapps”<br><br>A soft voice echoes: “Only one knows the way forward.”',
+            options: [
+                { text: 'Approach the "Business" reflection.', nextStageId: 'wrong_turn_general', feedback: 'The reflection smiles politely but offers no passage. "Ambition is good, but not the key here."', correct: false },
+                { text: 'Approach the "Music" reflection (glowing blue).', nextStageId: 'path3_dirk_riddle1', correct: true }, // Leads to Dirk Riddle Part 1
+                { text: 'Approach the "Webapps" reflection.', nextStageId: 'wrong_turn_general', feedback: 'The reflection shows you lines of code, intricate and complex, but the path remains hidden. "Logic serves, but heart leads."', correct: false }
+            ]
+        },
+        {
+            id: 'path3_dirk_riddle1',
+            description: `🛤️ Path 3, Investigation – The Interconnected Riddle (Part 1)<br>The musical reflection warps and shifts, pulling you into what feels like a cluttered, yet strangely organized detective's office. A manila folder labeled "CASE FILE: The Unsolvable Truth" lies open on a messy desk. Inside, a typed note reads:<br><br><div class="case-file-riddle">"There’s a sickness that’s twisted the truth,<br>A lie that leaves no trace,<br>A girl who cannot die, yet she’s always in the race.<br>One joins the crew, though they're out of place,<br>But every road leads back to their face."</div><br>Who, or what, is this riddle describing?`,
+            inputType: 'text',
+            correctAnswer: 'DIRK', // Case-insensitive check
+            nextStageId: 'path3_dirk_url_hint',
+            hint: "Think of a certain holistic detective known for solving cases where everything is connected, even if it doesn't seem so at first."
+        },
+        {
+            id: 'path3_dirk_url_hint',
+            isNarrative: true, // Indicates no input, just text display
+            description: `Correct! The answer is indeed <strong>DIRK</strong>.<br><br>As you utter the name, the case file on the desk glows faintly. A new sentence seems to type itself at the bottom of the page:<br><br><p style="text-align: center; font-style: italic; font-size: 1.1em; color: #7a5c58; padding:10px; border: 1px dashed #c0b2a3; background-color: #fdfaf6;">“You’ve found the one who never looks for clues — yet always finds them.<br>He’s the key, but keys don’t open doors... they unlock paths.<br>Try retracing your steps — but take a detour through the obvious.<br>Sometimes, changing direction means changing location.<br>And sometimes, changing a word... means changing a world.”</p><br>The air in the office shimmers. The path forward isn't in this room anymore... it's somewhere else you need to navigate to. The maze on this page is paused.`,
+            // No nextStageId here, as the user needs to change the URL manually.
+            // The Vigenere cipher will now be Path 4, and completion Path 5, but they are not directly linked from here.
+        },
+        // The Vigenere cipher and completion stages will remain, but will be effectively unlinked from the main flow on this page.
+        // They are kept in case you want to re-integrate them later or for a different puzzle.
+        // For now, the maze on index.html ends after path3_dirk_url_hint.
+        // The next part of the puzzle is on dirk.html.
+        {
+            id: 'unlinked_path4_find_key', // Renamed to avoid conflict if re-used
+            description: `(This path is currently unlinked) 🛤️ Path 4, Part 1 – The Key Word Riddle<br>...`,
+            inputType: 'text',
+            correctAnswer: 'GOODBYE',
+            nextStageId: 'unlinked_path4_solve_cipher',
+            hint: "I don't even think you need a clue my smart cookiee"
+        },
+        {
+            id: 'unlinked_path4_solve_cipher', // Renamed
+            description: `(This path is currently unlinked) Correct! The key is indeed <strong>GOODBYE</strong>.<br><br>...`,
+            inputType: 'text',
+            correctAnswer: 'SMILE',
+            nextStageId: 'unlinked_maze_complete',
+            isFinalInput: true,
+            hint: [
+                "The decryption method is Vigenère.",
+                "Remember to align the repeating key 'GOODBYE' under the ciphertext 'YAWOF'. The formula is: Plain = (Cipher_Letter_Value - Key_Letter_Value + 26) % 26.",
+                "Numerical values: A=0, B=1, ..., Z=25. For 'Y' (Cipher) and 'G' (Key): (24 - 6 + 26) % 26 = 18, which is 'S'."
+            ]
+        },
+        {
+            id: 'unlinked_maze_complete', // Renamed
+            isFinal: true,
+            description: '(This path is currently unlinked) The figure smiles warmly. ... Congratulations, you have navigated the dream maze!'
+        },
+        {
+            id: 'maze_complete',
+            isFinal: true,
+            description: 'The figure smiles warmly. "Indeed, it is Shrutie. She poured her heart into this for you." The stars in the room seem to brighten, swirling into a gentle vortex of light. The harp music swells, and you feel a sense of peace and love wash over you. The dream begins to fade, leaving behind the warmth of this carefully crafted journey.<br><br>Congratulations, you have navigated the dream maze!'
+        },
+        { // Generic wrong turn, leads back to the previous correct stage
+            id: 'wrong_turn_general',
+            isWrongTurn: true, // Special flag
+            // Feedback is provided by the option that leads here
+            // nextStageId will be set dynamically to the previous correct stage
+        }
+    ];
+    let currentMazeStageId = '';
+    let previousCorrectStageId = ''; // To return to after a generic wrong turn
 
     // --- FUNCTIONS ---
-    const checkAnswer = (inputElement, checkElement, correctAnswer) => {
-        if (inputElement.value.trim() === correctAnswer) {
-            checkElement.style.display = 'inline'; // Show checkmark
+
+    // Initial Questions Logic
+    const checkInitialAnswer = (inputElement, checkElement, correctAnswer) => {
+        if (inputElement.value.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+            checkElement.style.display = 'inline';
             return true;
         } else {
-            checkElement.style.display = 'none'; // Hide checkmark
+            checkElement.style.display = 'none';
             return false;
         }
     };
 
-    const checkAllAnswers = () => {
+    const checkAllInitialAnswers = () => {
         const allCorrect =
             check1.style.display === 'inline' &&
             check2.style.display === 'inline' &&
             check3.style.display === 'inline' &&
-            check4.style.display === 'inline' && // New
-            check5.style.display === 'inline';   // New
+            check4.style.display === 'inline' &&
+            check5.style.display === 'inline';
 
         if (allCorrect) {
-            revealLink.href = targetUrl;
-            resultLinkDiv.style.display = 'block'; // Show the final link
-        } else {
-            resultLinkDiv.style.display = 'none'; // Hide the final link
+            startMaze();
         }
     };
+
+    // Maze Logic
+    const startMaze = () => {
+        // Hide initial questions
+        allQuestionBlocks.forEach(block => block.style.display = 'none');
+        if (mainQuestionsHeading) mainQuestionsHeading.style.display = 'none';
+
+        // Show maze
+        mazeContainer.style.display = 'block';
+        const introStage = mazeData.find(stage => stage.isIntro);
+        if (introStage) {
+            mazeIntroDiv.innerHTML = introStage.description;
+            mazeIntroDiv.style.display = 'block';
+            previousCorrectStageId = introStage.id; // Or the stage it leads to
+            currentMazeStageId = introStage.nextStageId;
+            renderMazeStage(currentMazeStageId);
+        } else {
+            console.error("Maze intro stage not found!");
+        }
+    };
+
+    const renderMazeStage = (stageId) => {
+        const stage = mazeData.find(s => s.id === stageId);
+        if (!stage) {
+            console.error(`Maze stage ${stageId} not found!`);
+            return;
+        }
+
+        currentMazeStageId = stageId; // Update current stage
+
+        // Clear previous content
+        mazePathDescriptionDiv.innerHTML = '';
+        mazeOptionsDiv.innerHTML = '';
+        mazeFeedbackDiv.style.display = 'none';
+        mazeFinalRoomDiv.style.display = 'none';
+        if (!stage.isIntro) mazeIntroDiv.style.display = 'none'; // Hide intro after first step
+
+
+        if (stage.isFinal) {
+            mazeFinalRoomDiv.innerHTML = stage.description;
+            mazeFinalRoomDiv.style.display = 'block';
+            return;
+        }
+        
+        if (stage.isWrongTurn) {
+            // Feedback was set by the option leading here, now just provide a way back
+            mazePathDescriptionDiv.innerHTML = mazeFeedbackDiv.innerHTML; // Show feedback as description
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Try again';
+            backButton.onclick = () => {
+                mazeFeedbackDiv.style.display = 'none'; // Clear feedback before going back
+                renderMazeStage(previousCorrectStageId);
+            };
+            mazeOptionsDiv.appendChild(backButton);
+            return;
+        }
+
+        mazePathDescriptionDiv.innerHTML = stage.description;
+
+        if (stage.options) {
+            stage.options.forEach(option => {
+                const button = document.createElement('button');
+                button.innerHTML = option.text; // Use innerHTML for potential styling like (glowing blue)
+                if (option.text.includes("glowing slightly blue")) { // Basic way to style specific option
+                    button.style.boxShadow = "0 0 10px lightblue, 0 0 5px blue";
+                }
+                button.onclick = () => {
+                    mazeFeedbackDiv.style.display = 'none'; // Clear old feedback
+                    if (option.correct) {
+                        previousCorrectStageId = stage.id; // Current stage becomes previous correct
+                        renderMazeStage(option.nextStageId);
+                    } else {
+                        mazeFeedbackDiv.innerHTML = option.feedback || "That doesn't seem right. Try again.";
+                        mazeFeedbackDiv.style.display = 'block';
+                        // For generic wrong turns, we might want to go to a specific 'wrong_turn_general' stage
+                        // which then uses previousCorrectStageId to go back.
+                        // Here, we are handling feedback directly and staying on the same stage or going to a specific wrong turn stage.
+                        if (option.nextStageId === 'wrong_turn_general') {
+                             // The 'wrong_turn_general' stage will handle going back to 'previousCorrectStageId'
+                             // We need to ensure previousCorrectStageId is set correctly before this call.
+                             // previousCorrectStageId should be the ID of the current stage if a wrong choice is made on it.
+                            previousCorrectStageId = stage.id;
+                            renderMazeStage(option.nextStageId);
+                        }
+                        // If no nextStageId for wrong option, or it's not 'wrong_turn_general', she stays on current stage with feedback.
+                    }
+                };
+                mazeOptionsDiv.appendChild(button);
+            });
+        }
+
+        if (stage.inputType === 'text') {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Type your answer here';
+            input.id = 'maze-answer-input';
+            mazeOptionsDiv.appendChild(input);
+
+            // Add hint for text input stages if available
+            if (stage.hint) {
+                const hintContainer = document.createElement('div'); // To hold button and content
+                hintContainer.style.marginBottom = "15px"; // Add some space below the hint area
+                
+                const hintButton = document.createElement('button');
+                hintButton.classList.add('maze-hint-toggle');
+                
+                const hintContentDiv = document.createElement('div');
+                hintContentDiv.classList.add('maze-hint-content');
+                hintContentDiv.style.display = 'none'; // Initially hidden
+                hintContentDiv.style.marginTop = "5px"; // Space between button and hint text
+
+                let currentHintIndex = 0;
+                const hints = Array.isArray(stage.hint) ? stage.hint : [stage.hint]; // Ensure hints is an array
+
+                const showNextHint = () => {
+                    if (currentHintIndex < hints.length) {
+                        const p = document.createElement('p');
+                        // For tiered hints, add a "Hint X:" prefix. For single string hints, just show the hint.
+                        const hintPrefix = Array.isArray(stage.hint) ? `<strong>Hint ${currentHintIndex + 1}:</strong> ` : "";
+                        p.innerHTML = `${hintPrefix}${hints[currentHintIndex]}`;
+                        p.style.marginBottom = "5px"; // Space between hints if multiple are shown
+                        hintContentDiv.appendChild(p); // Append new hint, don't clear old ones for tiered
+                        hintContentDiv.style.display = 'block';
+                        currentHintIndex++;
+                        if (currentHintIndex < hints.length) {
+                            hintButton.innerHTML = `Show Hint ${currentHintIndex + 1} &#128161;`;
+                        } else {
+                            hintButton.innerHTML = 'All Hints Shown &#128161;';
+                            hintButton.disabled = true;
+                        }
+                    }
+                };
+                
+                // Initial button text
+                if (Array.isArray(stage.hint) && hints.length > 0) {
+                    hintButton.innerHTML = `Show Hint ${currentHintIndex + 1} &#128161;`;
+                } else if (typeof stage.hint === 'string' && stage.hint.trim() !== '') {
+                     hintButton.innerHTML = `Show Hint &#128161;`;
+                } else { // No hint or empty hint
+                    hintButton.style.display = 'none'; // Hide button if no hint
+                }
+
+                hintButton.onclick = showNextHint;
+
+                hintContainer.appendChild(hintButton);
+                hintContainer.appendChild(hintContentDiv);
+                mazeOptionsDiv.insertBefore(hintContainer, input); // Insert container before input
+            }
+
+            const submitButton = document.createElement('button');
+            submitButton.textContent = 'Submit Answer';
+            submitButton.classList.add('submit-maze-answer');
+            submitButton.onclick = () => {
+                const userAnswer = input.value.trim();
+                if (userAnswer.toLowerCase() === stage.correctAnswer.toLowerCase()) {
+                    mazeFeedbackDiv.style.display = 'none';
+                    if (stage.isFinalInput) previousCorrectStageId = stage.id; // Mark this as a correct step
+                    renderMazeStage(stage.nextStageId);
+                } else {
+                    mazeFeedbackDiv.innerHTML = 'That name doesn’t feel right to the dreamer... Try again.';
+                    mazeFeedbackDiv.style.display = 'block';
+                }
+            };
+            mazeOptionsDiv.appendChild(submitButton);
+            input.addEventListener('keypress', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault(); // Prevent default form submission if any
+                    submitButton.click();
+                }
+            });
+        }
+    };
+
 
     // --- EVENT LISTENERS ---
 
@@ -69,50 +337,24 @@ document.addEventListener('DOMContentLoaded', () => {
         lyricsContent.style.display = isHidden ? 'block' : 'none';
     });
 
-    // Hint Toggles
+    // Hint Toggles for initial questions
     const hintToggles = document.querySelectorAll('.hint-toggle');
     hintToggles.forEach(button => {
         button.addEventListener('click', () => {
             const hintTargetId = button.getAttribute('data-hint-target');
-            const hintContent = document.getElementById(hintTargetId);
-            if (hintContent) {
-                const isHidden = hintContent.style.display === 'none';
-                hintContent.style.display = isHidden ? 'block' : 'none';
+            const hintContentElement = document.getElementById(hintTargetId);
+            if (hintContentElement) {
+                const isHidden = hintContentElement.style.display === 'none';
+                hintContentElement.style.display = isHidden ? 'block' : 'none';
             }
         });
     });
 
+    // Input field checks for initial questions
+    q1Input.addEventListener('input', () => { checkInitialAnswer(q1Input, check1, initialCorrectAnswers.q1); checkAllInitialAnswers(); });
+    q2Input.addEventListener('input', () => { checkInitialAnswer(q2Input, check2, initialCorrectAnswers.q2); checkAllInitialAnswers(); });
+    q3Input.addEventListener('input', () => { checkInitialAnswer(q3Input, check3, initialCorrectAnswers.q3); checkAllInitialAnswers(); });
+    q4Input.addEventListener('input', () => { checkInitialAnswer(q4Input, check4, initialCorrectAnswers.q4); checkAllInitialAnswers(); });
+    q5Input.addEventListener('input', () => { checkInitialAnswer(q5Input, check5, initialCorrectAnswers.q5); checkAllInitialAnswers(); });
 
-    // Input field checks (using 'input' event for real-time checking)
-    q1Input.addEventListener('input', () => {
-        checkAnswer(q1Input, check1, correctAnswers.q1);
-        checkAllAnswers(); // Check if all are correct after this change
-    });
-
-    q2Input.addEventListener('input', () => {
-        checkAnswer(q2Input, check2, correctAnswers.q2);
-        checkAllAnswers();
-    });
-
-    q3Input.addEventListener('input', () => {
-        checkAnswer(q3Input, check3, correctAnswers.q3);
-        checkAllAnswers();
-    });
-
-    q4Input.addEventListener('input', () => { // New
-        checkAnswer(q4Input, check4, correctAnswers.q4);
-        checkAllAnswers();
-    });
-
-    q5Input.addEventListener('input', () => { // New
-        checkAnswer(q5Input, check5, correctAnswers.q5);
-        checkAllAnswers();
-    });
-
-
-    // Initial check in case the browser autofills values (optional)
-    // checkAnswer(q1Input, check1, correctAnswers.q1);
-    // checkAnswer(q2Input, check2, correctAnswers.q2);
-    // checkAnswer(q3Input, check3, correctAnswers.q3);
-    // checkAllAnswers();
 });

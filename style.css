@@ -1,169 +1,308 @@
 body {
-    font-family: sans-serif;
+    font-family: 'Lato', sans-serif;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     min-height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #f4f1eb; /* Soft, warm off-white */
+    color: #333d47; /* Dark, desaturated blue-grey for text */
+    padding: 30px 0;
+    line-height: 1.7;
 }
 
 .container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 40px 50px;
+    border-radius: 8px; /* More subtle rounding */
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08); /* Softer, more diffused shadow */
     text-align: center;
-    max-width: 600px; /* Limit container width */
-    margin: 20px auto; /* Add some margin */
+    max-width: 750px;
+    margin: 30px auto;
 }
 
 .audio-section {
-    margin-bottom: 30px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 40px;
+    padding: 25px;
+    border: 1px solid #e0dcd3; /* Subtle border */
+    border-radius: 6px;
+    background-color: #fdfcfb; /* Slightly off-white, almost imperceptible */
 }
 
-.audio-section h2 {
-    margin-bottom: 10px;
-    color: #555;
+.audio-section h2, h1, #maze-title {
+    font-family: 'Playfair Display', serif; /* Elegant serif for headings */
+    font-weight: 700;
+    color: #2a3f54; /* Deep, sophisticated navy */
+    margin-bottom: 20px;
 }
+
+.audio-section h2 { font-size: 2em; }
+h1 { font-size: 2.4em; margin-bottom: 30px; } /* Main "Answer the Questions" heading */
+#maze-title { font-size: 2.2em; }
+
 
 #audio-player {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    /* Consider custom styling for audio player if browser defaults are too clunky */
 }
 
 .lyrics-section {
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 #lyrics-toggle {
-    background-color: #6c757d;
-    color: white;
-    padding: 8px 15px;
+    background-color: #8c7a6b; /* Muted, earthy brown-grey */
+    color: #fdfcfb;
+    padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
-    margin-bottom: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    transition: background-color 0.3s ease;
 }
 
 #lyrics-toggle:hover {
-    background-color: #5a6268;
+    background-color: #736357; /* Darker shade */
 }
 
 #lyrics-content {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 4px;
-    padding: 15px;
+    background-color: #f9f7f3; /* Very light cream */
+    border: 1px solid #e8e4dd;
+    border-radius: 6px;
+    padding: 20px;
     text-align: left;
-    max-height: 200px; /* Limit height and make scrollable if needed */
+    max-height: 280px;
     overflow-y: auto;
+    font-size: 1em;
 }
 
 #lyrics-content pre {
     margin: 0;
-    font-family: monospace; /* Use monospace for lyrics */
-    white-space: pre-wrap; /* Wrap long lines */
+    font-family: 'Lato', sans-serif; /* Consistent with body for readability */
+    white-space: pre-wrap;
     word-wrap: break-word;
-}
-
-
-h1 {
-    color: #333;
-    margin-bottom: 20px;
+    color: #4a5560;
+    line-height: 1.6;
 }
 
 .question-block {
-    margin-bottom: 25px; /* Increased spacing between questions */
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee; /* Separator line */
+    margin-bottom: 35px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #e8e4dd; /* Lighter separator */
     text-align: left;
 }
 
 .question-header {
     display: flex;
     align-items: center;
-    margin-bottom: 8px; /* Space between header and question text */
+    margin-bottom: 12px;
 }
 
 .question-block label {
-    flex-basis: 100px; /* Fixed width for labels */
-    margin-right: 10px;
-    color: #555;
-    font-weight: bold;
+    flex-basis: 120px;
+    margin-right: 15px;
+    color: #2a3f54; /* Deep navy */
+    font-weight: 700; /* Bold Lato */
+    font-size: 1.1em;
 }
 
 .question-block input[type="text"] {
-    flex-grow: 1; /* Allow input to take remaining space */
-    padding: 8px;
-    border: 1px solid #ccc;
+    flex-grow: 1;
+    padding: 12px 15px;
+    border: 1px solid #d3ccc1; /* Softer border */
     border-radius: 4px;
     box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    color: #333d47;
+}
+
+.question-block input[type="text"]:focus {
+    outline: none;
+    border-color: #8c7a6b; /* Muted brown-grey focus */
+    box-shadow: 0 0 0 2px rgba(140, 122, 107, 0.2); /* Subtle focus ring */
 }
 
 .question-block .checkmark {
-    margin-left: 10px;
-    font-size: 1.2em;
-    color: green;
+    margin-left: 15px;
+    font-size: 1.6em;
+    color: #6a8a54; /* Muted, elegant green */
 }
 
 .question-text {
-    margin: 0 0 10px 110px; /* Indent question text to align with input */
-    color: #333;
-    font-style: italic;
+    margin: 0 0 15px 135px; /* Indent question text */
+    color: #4a5560;
+    font-size: 1.05em;
+    line-height: 1.6;
 }
 
 .hint-section {
-    margin-left: 110px; /* Indent hint section */
-    margin-top: 5px;
+    margin-left: 135px;
+    margin-top: 10px;
+}
+
+.case-file-riddle {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #fdfaf6; /* Light cream, like old paper */
+    border: 1px solid #d3ccc1; /* Subtle border */
+    padding: 20px;
+    margin: 15px 0; /* Space around the riddle box */
+    border-radius: 4px;
+    line-height: 1.6;
+    font-size: 1.05em;
+    color: #4a5560; /* Dark grey text */
+    white-space: pre-line; /* Respect line breaks in the riddle string */
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.05); /* Slight shadow to lift it */
+}
+
+.maze-hint-toggle {
+    background-color: #c0b2a3 !important; /* Distinct color for maze hints, using !important to override general #maze-options button style */
+    color: #fdfcfb !important;
+    padding: 8px 15px !important;
+    font-size: 0.85em !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px !important; /* Ensure space before input field */
+    display: inline-block !important; /* Allow it to sit nicely */
+    width: auto !important; /* Not full width */
+    margin-right: 10px; /* Space if other elements were next to it */
+}
+
+.maze-hint-toggle:hover {
+    background-color: #a99a8c !important;
+}
+
+.maze-hint-content {
+    background-color: #f7f5f0;
+    border: 1px solid #e4e0d9;
+    border-radius: 6px;
+    padding: 15px;
+    font-size: 0.95em;
+    color: #525c66;
+    margin-bottom: 15px; /* Space before the input field */
+    text-align: left;
+}
+
+.maze-hint-content strong {
+    font-weight: bold;
+    color: #333d47;
 }
 
 .hint-toggle {
-    background-color: #ffc107; /* Yellow hint button */
-    color: #333;
-    padding: 5px 10px;
+    background-color: #b0a193; /* Lighter, muted brown-grey */
+    color: #fdfcfb;
+    padding: 8px 15px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 12px;
-    margin-bottom: 5px;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease;
 }
 
 .hint-toggle:hover {
-    background-color: #e0a800;
+    background-color: #9a8b7f;
 }
 
 .hint-content {
-    background-color: #fff3cd; /* Light yellow background for hint */
-    border: 1px solid #ffeeba;
-    border-radius: 4px;
-    padding: 10px;
-    font-size: 0.9em;
-    color: #856404; /* Darker yellow text */
-}
-
-
-#result-link {
-    margin-top: 20px;
+    background-color: #f7f5f0; /* Very light, warm grey */
+    border: 1px solid #e4e0d9;
+    border-radius: 6px;
     padding: 15px;
-    background-color: #e7f7e7;
-    border: 1px solid #c3e6cb;
+    font-size: 0.95em;
+    color: #525c66;
+}
+
+/* Maze Styles */
+#maze-container {
+    margin-top: 50px;
+    padding: 30px 40px;
+    border: 1px solid #d3ccc1; /* Subtle border */
+    border-radius: 8px;
+    background-color: #fdfcfb;
+}
+
+#maze-intro,
+#maze-path-description,
+#maze-final-room {
+    margin-bottom: 25px;
+    line-height: 1.8;
+    text-align: left;
+    font-size: 1.1em;
+    color: #333d47;
+}
+
+#maze-intro strong, #maze-path-description strong, #maze-final-room strong {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    color: #7a5c58; /* Muted, rich reddish-brown for emphasis */
+}
+
+#maze-options button {
+    display: block;
+    width: 100%;
+    padding: 14px 18px;
+    margin-bottom: 15px;
+    background-color: #736357; /* Muted brown-grey for maze buttons */
+    color: #fdfcfb;
+    border: none;
     border-radius: 4px;
-}
-
-#result-link p {
-    margin: 0 0 10px 0;
-    color: #155724;
-}
-
-#reveal-link {
-    color: #007bff;
-    text-decoration: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-family: 'Lato', sans-serif;
     font-weight: bold;
+    text-align: left;
+    transition: background-color 0.3s ease, box-shadow 0.2s ease;
 }
 
-#reveal-link:hover {
-    text-decoration: underline;
+#maze-options button:hover {
+    background-color: #5c5046; /* Darker shade */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#maze-options button:active {
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#maze-options input[type="text"] {
+    width: calc(100% - 30px); /* Account for padding and border */
+    padding: 14px;
+    margin-bottom: 15px;
+    border: 1px solid #d3ccc1;
+    border-radius: 4px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1em;
+    color: #333d47;
+}
+
+#maze-options input[type="text"]:focus {
+    outline: none;
+    border-color: #8c7a6b;
+    box-shadow: 0 0 0 2px rgba(140, 122, 107, 0.2);
+}
+
+#maze-options .submit-maze-answer {
+    background-color: #6a8a54; /* Muted green for submit */
+}
+#maze-options .submit-maze-answer:hover {
+    background-color: #587447; /* Darker muted green */
+}
+
+#maze-feedback {
+    font-family: 'Lato', sans-serif;
+    font-weight: bold;
+    color: #8c3b3b !important; /* Muted, deep red */
+    background-color: #fceeee; /* Very light pinkish for error background */
+    padding: 12px 15px;
+    border-radius: 4px;
+    border: 1px solid #f8d7da; /* Light red border */
+    margin-top: 10px;
 }
