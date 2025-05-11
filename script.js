@@ -32,7 +32,27 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             id: 'maze_complete',
             isFinal: true,
-            description: `The figure smiles warmly. "Indeed, it is Shrutie. She poured her heart into this for you." The stars in the room seem to brighten, swirling into a gentle vortex of light. The harp music swells, and you feel a sense of peace and love wash over you. The dream begins to fade, leaving behind the warmth of this carefully crafted journey.<br><br>Congratulations, you have navigated the dream maze!<br><br><div style="text-align:center; margin-top:20px;"><img src="Shruti-bday-pic.png" alt="Birthday Surprise!" style="max-width:100%; border-radius:8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"></div><p style="text-align:center; font-style:italic; margin-top:10px;">(Your birthday message will appear here!)</p>`
+            description: `Congratuationssss Detective Madame Spicee!! You've solved all the puzzled and cracked all the codes, I hope you enjoyed your adventure!!<br><br>
+            <div class="final-content-container">
+                <div class="final-video-container">
+                    <video id="final-birthday-video" width="100%" controls src="bday-vid-02.mp4" style="border-radius:8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <p>Your browser doesn't support HTML5 video. Here is a <a href="bday-vid-02.mp4">link to the video</a> instead.</p>
+                    </video>
+                </div>
+                <div class="birthday-message-container">
+Happy Birtdhay, my love!❣️🎉
+
+On your special day, I just want to take a moment to remind you how truly amazing you are. Your creativity, love, and unwaivering support makes every day a complete joy. I'm so grateful to be a part of your journey, our journey. Watching you shine is honestly nothing short of inspiring - whether its your work, your passions, or your surprise for me. 
+
+You bring so much joy, laughter and light into my life, and i'm excited for all the beaituful memories we'll get to keep making together. 
+
+I hope today brings you as much happiness as you bring to me, its your day, all about Youuuuu my love, today and every day.❣️
+
+I Love you megatons 
+
+your Harvest Watson🕵️
+                </div>
+            </div>`
         },
         {
             id: 'maze_start_intro',
@@ -46,21 +66,20 @@ document.addEventListener('DOMContentLoaded', () => {
             inputType: 'text',
             correctAnswer: 'MIST',
             nextStageId: 'path2_coin',
-            isMisty: true // Retaining for potential visual styling on the input area itself
+            isMisty: true
         },
         {
             id: 'path2_coin', // Path 2: Video Oracle
-            description: `🛤️ Path 2 – The Video Oracle Chamber<br>The mist clears, revealing a cozy room. On a pedestal, a screen flickers to life, ready to play a special video message. Watch carefully!<br><br><div id="video-container" style="max-width: 100%; margin-bottom:10px;"><video id="coin-flip-video" width="100%" controls src="bday-vid.mp4"><p>Your browser doesn't support HTML5 video. Here is a <a href="bday-vid.mp4">link to the video</a> instead.</p></video></div><div style="margin-bottom:20px; text-align:left;"><button id="video-transcript-toggle" class="maze-hint-toggle" style="margin-left:0; margin-bottom:5px;">Show/Hide Transcript</button><div id="video-transcript-content" class="maze-hint-content" style="display:none; margin-left:0;"></div></div>In the video, I flip a coin four times. Listen to my script for each flip – does it hint at 'H' for Heads or 'T' for Tails?<br>What were the sequence of flips? (H for heads, T for tails, e.g HHTH)`,
+            description: `🛤️ Path 2 – The Video Oracle Chamber<br>The mist clears, revealing a cozy room. On a pedestal, a screen flickers to life, ready to play a special video message. Watch carefully!<br><br><div id="video-container" style="max-width: 100%; margin-bottom:10px;"><video id="coin-flip-video" width="100%" controls src="bday-vid.mp4"><p>Your browser doesn't support HTML5 video. Here is a <a href="bday-vid.mp4">link to the video</a> instead.</p></video></div><div style="margin-bottom:20px; text-align:left;"><button id="video-transcript-toggle" class="maze-hint-toggle" style="margin-left:0; margin-bottom:5px;">Show/Hide Transcript</button><div id="video-transcript-content" class="maze-hint-content" style="display:none; margin-left:0;"></div></div>What were the sequence of flips? (H for heads, T for tails, e.g HHTH)`,
             inputType: 'text',
             correctAnswer: 'HTHT',
-            nextStageId: 'path3_dirk_riddle1', // Path 2 now leads directly to Dirk Riddle Part 1
+            nextStageId: 'path3_dirk_riddle1',
             localVideoSrc: 'bday-vid.mp4',
             videoTranscript: `“Hope rises when you're sure of the odds. But sometimes... even the sky turns.”<br><br>“There’s talk, always talk — but who listens when the coin tumbles?”<br><br>“Hope was something I held too tightly. It broke before I could let it go.”<br><br>“Tides shift. Time bends. And trust me... the answer’s already there.”`,
             hint: "Look and listen closely, the answer is in the words."
         },
-        // Path 3 (Mirror Room) is removed.
         {
-            id: 'path3_dirk_riddle1', // This is now effectively Path 3
+            id: 'path3_dirk_riddle1',
             description: `🛤️ Path 3, Investigation – The Interconnected Riddle (Part 1)<br>The video screen fades, and the room subtly shifts. You find yourself in what feels like a cluttered, yet strangely organized detective's office. A manila folder labeled "CASE FILE: The Unsolvable Truth" lies open on a messy desk. Inside, a typed note reads:<br><br><div class="case-file-riddle">"There’s a sickness that’s twisted the truth,<br>A lie that leaves no trace,<br>A girl who cannot die, yet she’s always in the race.<br>One joins the crew, though they're out of place,<br>But every road leads back to their face."</div><br>Who, or what, is this riddle describing?`,
             inputType: 'text',
             correctAnswer: 'DIRK',
@@ -71,10 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
             id: 'path3_dirk_url_hint',
             isNarrative: true,
             description: `Correct! The answer is indeed <strong>DIRK</strong>.<br><br>As you utter the name, the case file on the desk glows faintly. A new sentence seems to type itself at the bottom of the page:<br><br><p style="text-align: center; font-style: italic; font-size: 1.1em; color: #7a5c58; padding:10px; border: 1px dashed #c0b2a3; background-color: #fdfaf6;">“You’ve found the one who never looks for clues — yet always finds them.<br>He’s the key, but keys don’t open doors... they unlock paths.<br>Try retracing your steps — but take a detour through the obvious.<br>Sometimes, changing direction means changing location.<br>And sometimes, changing a word... means changing a world.”</p><br>The air in the office shimmers. The path forward isn't in this room anymore... it's somewhere else you need to navigate to. The maze on this page is paused.`,
-            hint: "input.missing: dirkPath" // Meta hint
+            hint: "input.missing: dirkPath"
         },
         {
-            id: 'path4_find_key', // This is Path 4, accessed via dirk.html link
+            id: 'path4_find_key',
             description: `🛤️ Path 4, Part 1 – The Key Word Riddle<br>You've followed the holistic path! Before you is a quiet, elegant study. A single, beautifully handwritten note sits on a polished desk. It simply reads:<br><br><p style="text-align: center; font-style: italic; font-size: 1.2em; color: #5c5046;">"Right before the fun starts…"</p>`,
             inputType: 'text',
             correctAnswer: 'GOODBYE',
@@ -149,8 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (introStage) {
             mazeIntroDiv.innerHTML = introStage.description;
             mazeIntroDiv.style.display = 'block';
-            currentMazeStageId = introStage.nextStageId; // Set current stage to what intro leads to
-            previousCorrectStageId = introStage.id; // Intro is the first "correct" step
+            currentMazeStageId = introStage.nextStageId;
+            previousCorrectStageId = introStage.id;
             renderMazeStage(currentMazeStageId);
         } else {
             console.error("Maze intro stage not found!");
@@ -171,8 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mazeFinalRoomDiv.style.display = 'none';
         if (!stage.isIntro) mazeIntroDiv.style.display = 'none';
 
-        // Apply/remove misty effect based on current stage
-        const descriptionContainer = stage.isMisty ? mazePathDescriptionDiv : document.body; // Or a more specific non-misty parent
         if (stage.isMisty) {
             mazePathDescriptionDiv.classList.add('misty-path');
             mazeOptionsDiv.classList.add('misty-path-options');
@@ -180,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
             mazePathDescriptionDiv.classList.remove('misty-path');
             mazeOptionsDiv.classList.remove('misty-path-options');
         }
-
 
         if (stage.isFinal) {
             mazeFinalRoomDiv.innerHTML = stage.description;
@@ -242,9 +258,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         mazeFeedbackDiv.innerHTML = option.feedback || "That doesn't seem right. Try again.";
                         mazeFeedbackDiv.style.display = 'block';
-                        if (option.nextStageId === 'wrong_turn_general' || option.nextStageId === 'wrong_turn_misty') {
-                            previousCorrectStageId = stage.id; // Keep current stage as previous for retry
-                            renderMazeStage(option.nextStageId); // Go to the specific wrong turn stage
+                        if (option.nextStageId === 'wrong_turn_general' || stage.id === 'path1_doors') { // Keep path1_doors specific wrong turn if needed, or use generic
+                            previousCorrectStageId = stage.id;
+                            renderMazeStage(option.nextStageId || 'wrong_turn_general'); // Go to the specific wrong turn stage or generic
                         }
                     }
                 };
@@ -252,18 +268,17 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Handle hint for narrative stages like path3_dirk_url_hint
         if (stage.isNarrative && stage.hint) {
              const hintContainer = document.createElement('div');
              hintContainer.style.marginTop = "15px";
              const hintButton = document.createElement('button');
-             hintButton.classList.add('maze-hint-toggle'); // Use existing class for styling
+             hintButton.classList.add('maze-hint-toggle');
              hintButton.innerHTML = `Show Hint &#128161;`;
              const hintContentDiv = document.createElement('div');
              hintContentDiv.classList.add('maze-hint-content');
              hintContentDiv.style.display = 'none';
              hintContentDiv.style.marginTop = "5px";
-             hintContentDiv.innerHTML = `<p>${stage.hint}</p>`;
+             hintContentDiv.innerHTML = `<p>${stage.hint}</p>`; // Single hint for narrative
              hintButton.onclick = () => {
                  const isHidden = hintContentDiv.style.display === 'none';
                  hintContentDiv.style.display = isHidden ? 'block' : 'none';
@@ -271,19 +286,18 @@ document.addEventListener('DOMContentLoaded', () => {
              };
              hintContainer.appendChild(hintButton);
              hintContainer.appendChild(hintContentDiv);
-             mazeOptionsDiv.appendChild(hintContainer); // Append to options div for layout consistency
+             mazeOptionsDiv.appendChild(hintContainer);
         }
-
 
         if (stage.inputType === 'text') {
             const input = document.createElement('input');
             input.type = 'text';
             input.placeholder = 'Type your answer here';
             input.id = 'maze-answer-input';
-            if (stage.isMisty) input.classList.add('misty-input'); // For potential specific styling
+            if (stage.isMisty) input.classList.add('misty-input');
             mazeOptionsDiv.appendChild(input);
 
-            if (stage.hint && !stage.isNarrative) { // Ensure hints for input stages are handled, not for narrative here
+            if (stage.hint && !stage.isNarrative) {
                 const hintContainer = document.createElement('div');
                 hintContainer.style.marginBottom = "15px";
                 const hintButton = document.createElement('button');
@@ -307,8 +321,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (currentHintIndex >= hints.length) hintButton.disabled = true;
                     }
                 };
-                if (hints.length > 0 && hints[0].trim() !== '') {
-                    hintButton.innerHTML = `Show Hint ${currentHintIndex + 1} &#128161;`;
+                if (hints.length > 0 && hints[0] && hints[0].trim() !== '') { // Check if hints[0] exists
+                    hintButton.innerHTML = (Array.isArray(stage.hint) ? `Show Hint ${currentHintIndex + 1} ` : `Show Hint `) + `&#128161;`;
                 } else {
                     hintButton.style.display = 'none';
                 }
@@ -325,12 +339,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const userAnswer = input.value.trim();
                 if (userAnswer.toLowerCase() === stage.correctAnswer.toLowerCase()) {
                     mazeFeedbackDiv.style.display = 'none';
-                    previousCorrectStageId = stage.id; // Current stage is now previous correct
-                    if (stage.isFinalInput) { // Check if this is the input that completes the maze
-                         renderMazeStage(stage.nextStageId); // This should be 'maze_complete'
-                    } else {
-                        renderMazeStage(stage.nextStageId);
-                    }
+                    previousCorrectStageId = stage.id;
+                    renderMazeStage(stage.nextStageId);
                 } else {
                     mazeFeedbackDiv.innerHTML = stage.id === 'path1_doors' ? 'The mist thickens for a moment, then settles back. That word doesn’t seem to resonate here.' : 'That doesn’t feel right... Try again.';
                     mazeFeedbackDiv.style.display = 'block';
@@ -351,8 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lyricsContent.style.display = isHidden ? 'block' : 'none';
     });
 
-    document.querySelectorAll('.hint-toggle').forEach(button => {
-        if (button.id === 'video-transcript-toggle') return; // Already handled
+    document.querySelectorAll('.hint-toggle:not(#video-transcript-toggle):not(.maze-hint-toggle)').forEach(button => {
         const hintTargetId = button.getAttribute('data-hint-target');
         const hintContentElement = document.getElementById(hintTargetId);
         if (hintContentElement) {

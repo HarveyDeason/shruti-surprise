@@ -146,6 +146,57 @@ h1 { font-size: 2.4em; margin-bottom: 30px; } /* Main "Answer the Questions" hea
     margin-top: 10px;
 }
 
+.final-content-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    align-items: flex-start; /* Align items to the top */
+    gap: 25px; /* Space between video and message */
+    margin-top: 20px;
+}
+
+.final-video-container {
+    flex: 1 1 300px; /* Flex grow, shrink, basis */
+    min-width: 280px; /* Minimum width before wrapping */
+}
+
+.final-video-container video {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.birthday-message-container {
+    flex: 1 1 300px; /* Flex grow, shrink, basis */
+    min-width: 280px;
+    text-align: left;
+    font-family: 'Lato', sans-serif;
+    padding: 15px; 
+    background-color:#f9f7f3; 
+    border-radius:6px; 
+    border:1px solid #e8e4dd;
+    white-space:pre-line;
+    line-height: 1.7;
+    color: #333d47;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 680px) {
+    .final-content-container {
+        flex-direction: column; /* Stack video and message */
+        align-items: center; /* Center items when stacked */
+    }
+    .final-video-container,
+    .birthday-message-container {
+        flex-basis: auto; /* Allow them to take full width when stacked */
+        width: 100%;
+        max-width: 450px; /* Max width for stacked items */
+    }
+    .birthday-message-container {
+        margin-top: 20px; /* Add space above message when stacked */
+    }
+}
+
 .misty-path {
     filter: blur(2px) opacity(0.85);
     transition: filter 0.5s ease-in-out, color 0.5s ease-in-out;
