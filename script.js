@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="birthday-message-container">
 Happy Birthday, my love!❣️🎉
 
-On your special day, I just want to take a moment to remind you how truly amazing you are. Your creativity, love, and unwaivering support makes every day a complete joy. I'm so grateful to be a part of your journey, our journey. Watching you shine is honestly nothing short of inspiring - whether its your work, your passions, or your surprise for me. 
+On your special day, I just want to take a moment to remind you how truly amazing you are. Your creativity, love, and unwaivering support makes every day a complete joy. I'm so grateful to be a part of your journey, our journey. Watching you shine is honestly nothing short of inspiring - whether its your work, your passions, or the random crazy surprises you make. 
 
 You bring so much joy, laughter and light into my life, and i'm excited for all the beaituful memories we'll get to keep making together. 
 
