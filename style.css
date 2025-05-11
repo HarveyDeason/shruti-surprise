@@ -146,6 +146,22 @@ h1 { font-size: 2.4em; margin-bottom: 30px; } /* Main "Answer the Questions" hea
     margin-top: 10px;
 }
 
+.misty-path {
+    filter: blur(2px) opacity(0.85);
+    transition: filter 0.5s ease-in-out, color 0.5s ease-in-out;
+    color: #a0a0a0 !important; /* Lighter text color to enhance haze */
+}
+
+.misty-path-options button {
+    background-color: #9a8b7f !important; /* Muted button color */
+    opacity: 0.7;
+}
+
+.misty-path-options button:hover {
+    background-color: #8c7a6b !important;
+    opacity: 1;
+}
+
 .case-file-riddle {
     font-family: 'Courier New', Courier, monospace;
     background-color: #fdfaf6; /* Light cream, like old paper */

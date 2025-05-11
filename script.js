@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CONFIGURATION FOR INITIAL QUESTIONS ---
     const initialCorrectAnswers = {
-        q1: "Answer1", // Replace with actual answer
+        q1: "Answer1", // Reverted to placeholder
         q2: "Answer2", // Replace with actual answer
         q3: "Answer3", // Replace with actual answer
         q4: "Answer4", // Replace with actual answer
@@ -50,21 +50,28 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'path1_doors',
-            description: '🛤️ Path 1 – The Hall of Doors<br>You see three doors ahead:',
+            description: `🌫️ Path 1 – The Shrouded Passage<br>The air grows thick and heavy, your vision is obscured. Shapes loom ahead, indistinct and shifting. You can barely make out where you are or what's lurking in the distance.`,
             options: [
-                { text: 'One painted with chocolate truffle cake.', nextStageId: 'wrong_turn_general', feedback: 'The cake smells divine, but this door feels cold and unyielding. Not the way.', correct: false },
-                { text: 'One shaped like a fish skeleton.', nextStageId: 'wrong_turn_general', feedback: 'A faint, unsettling smell emanates from this door. It creaks ominously. Best to avoid.', correct: false },
-                { text: 'One glowing softly with biryani steam.', nextStageId: 'path2_coin', correct: true }
-            ]
+                { text: 'Approach the first hazy shape on the left.', nextStageId: 'wrong_turn_misty', feedback: 'The mist swirls, and you find yourself back where you started, the shapes still indistinct.', correct: false },
+                { text: 'Investigate the central, wavering form.', nextStageId: 'wrong_turn_misty', feedback: 'A disorienting pulse emanates from this direction. You stumble back, the passage reforming before you.', correct: false },
+                { text: 'Move towards the subtle warmth felt from the rightmost silhouette.', nextStageId: 'path2_coin', correct: true } // This was the "biryani" door
+            ],
+            isMisty: true // Custom flag to add a CSS class later
+        },
+        { // Specific wrong turn for misty path to keep the theme
+            id: 'wrong_turn_misty',
+            isWrongTurn: true,
+            // Feedback is provided by the option that leads here
         },
         {
             id: 'path2_coin',
-            description: '🛤️ Path 2 – The Coin Flip Chamber<br>Warmth and the comforting aroma of spices lead you here. Inside is a giant golden coin spinning mid-air. A whisper says:<br>“Heads or Tails... or something else?”',
-            options: [
-                { text: 'A) Heads', nextStageId: 'wrong_turn_general', feedback: 'The coin clatters, showing heads. The whisper sighs, "A choice, but not THE choice." The coin resets.', correct: false },
-                { text: 'B) Tails', nextStageId: 'wrong_turn_general', feedback: 'Tails it is. But the air remains still. "Predictable," the whisper murmurs. The coin resets.', correct: false },
-                { text: 'C) Flip it again', nextStageId: 'path3_mirror', correct: true }
-            ]
+            description: `🛤️ Path 2 – The Video Oracle Chamber<br>Warmth and the comforting aroma of spices lead you into a cozy room. On a pedestal, a screen flickers to life, ready to play a special video message. Watch carefully!<br><br><div id="video-container" style="max-width: 100%; margin-bottom:10px;"><video id="coin-flip-video" width="100%" controls src="PXL_20250511_064659194.mp4"><p>Your browser doesn't support HTML5 video. Here is a <a href="PXL_20250511_064659194.mp4">link to the video</a> instead.</p></video></div><div style="margin-bottom:20px; text-align:left;"><button id="video-transcript-toggle" class="maze-hint-toggle" style="margin-left:0; margin-bottom:5px;">Show/Hide Transcript</button><div id="video-transcript-content" class="maze-hint-content" style="display:none; margin-left:0;"></div></div>In the video, I flip a coin four times. Listen to my script for each flip – does it hint at 'H' for Heads or 'T' for Tails? Enter the four-letter sequence you decode (e.g., HTHT).`,
+            inputType: 'text',
+            correctAnswer: 'HTHT',
+            nextStageId: 'path3_mirror',
+            localVideoSrc: 'PXL_20250511_064659194.mp4', // Updated video filename
+            videoTranscript: `“Hope rises when you're sure of the odds. But sometimes... even the sky turns.”<br><br>“There’s talk, always talk — but who listens when the coin tumbles?”<br><br>“Hope was something I held too tightly. It broke before I could let it go.”<br><br>“Tides shift. Time bends. And trust me... the answer’s already there.”`,
+            hint: "Listen closely to the words I use around each coin flip. Some words might subtly suggest 'H' or 'T' sounds or concepts."
         },
         {
             id: 'path3_mirror',
@@ -200,6 +207,14 @@ document.addEventListener('DOMContentLoaded', () => {
         mazeFinalRoomDiv.style.display = 'none';
         if (!stage.isIntro) mazeIntroDiv.style.display = 'none'; // Hide intro after first step
 
+        // Apply .misty-path class if stage.isMisty is true
+        if (stage.isMisty) {
+            mazePathDescriptionDiv.classList.add('misty-path');
+            mazeOptionsDiv.classList.add('misty-path-options'); // To style buttons if needed
+        } else {
+            mazePathDescriptionDiv.classList.remove('misty-path');
+            mazeOptionsDiv.classList.remove('misty-path-options');
+        }
 
         if (stage.isFinal) {
             mazeFinalRoomDiv.innerHTML = stage.description;
@@ -209,6 +224,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (stage.isWrongTurn) {
             // Feedback was set by the option leading here, now just provide a way back
+            // For misty wrong turn, ensure the mist effect is still applied to the feedback text
+            if (previousCorrectStageId && mazeData.find(s => s.id === previousCorrectStageId)?.isMisty) {
+                 mazePathDescriptionDiv.classList.add('misty-path'); // Re-apply if going back to misty
+            }
             mazePathDescriptionDiv.innerHTML = mazeFeedbackDiv.innerHTML; // Show feedback as description
             const backButton = document.createElement('button');
             backButton.textContent = 'Try again';
@@ -221,6 +240,36 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         mazePathDescriptionDiv.innerHTML = stage.description;
+
+        // If the stage has a localVideoSrc, update the video tag
+        if (stage.localVideoSrc && stage.localVideoSrc !== 'YOUR_LOCAL_VIDEO_FILENAME_HERE') {
+            const videoElement = mazePathDescriptionDiv.querySelector('#coin-flip-video');
+            if (videoElement) {
+                videoElement.src = stage.localVideoSrc;
+                const videoLink = videoElement.querySelector('a'); // Fallback link
+                if (videoLink) videoLink.href = stage.localVideoSrc;
+            }
+        } else if (stage.localVideoSrc === 'YOUR_LOCAL_VIDEO_FILENAME_HERE' && stage.id === 'path2_coin') { // Only show placeholder if it's the video stage and not configured
+            const videoContainer = mazePathDescriptionDiv.querySelector('#video-container');
+            if (videoContainer) {
+                 videoContainer.innerHTML = "<p style='text-align:center; color:#888; padding: 20px;'>Video will appear here once configured with the filename.</p>";
+            }
+        }
+
+        // Handle video transcript toggle for path2_coin
+        if (stage.id === 'path2_coin' && stage.videoTranscript) {
+            const transcriptToggleBtn = mazePathDescriptionDiv.querySelector('#video-transcript-toggle');
+            const transcriptContentDiv = mazePathDescriptionDiv.querySelector('#video-transcript-content');
+            if (transcriptToggleBtn && transcriptContentDiv) {
+                transcriptContentDiv.innerHTML = stage.videoTranscript.replace(/<br><br>/g, '</p><p>').replace(/^/, '<p>').replace(/$/, '</p>'); // Wrap lines in <p> for better spacing
+                transcriptToggleBtn.onclick = () => {
+                    const isHidden = transcriptContentDiv.style.display === 'none';
+                    transcriptContentDiv.style.display = isHidden ? 'block' : 'none';
+                    transcriptToggleBtn.textContent = isHidden ? 'Hide Transcript' : 'Show Transcript';
+                };
+            }
+        }
+
 
         if (stage.options) {
             stage.options.forEach(option => {
@@ -237,17 +286,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else {
                         mazeFeedbackDiv.innerHTML = option.feedback || "That doesn't seem right. Try again.";
                         mazeFeedbackDiv.style.display = 'block';
-                        // For generic wrong turns, we might want to go to a specific 'wrong_turn_general' stage
-                        // which then uses previousCorrectStageId to go back.
-                        // Here, we are handling feedback directly and staying on the same stage or going to a specific wrong turn stage.
                         if (option.nextStageId === 'wrong_turn_general') {
-                             // The 'wrong_turn_general' stage will handle going back to 'previousCorrectStageId'
-                             // We need to ensure previousCorrectStageId is set correctly before this call.
-                             // previousCorrectStageId should be the ID of the current stage if a wrong choice is made on it.
                             previousCorrectStageId = stage.id;
                             renderMazeStage(option.nextStageId);
                         }
-                        // If no nextStageId for wrong option, or it's not 'wrong_turn_general', she stays on current stage with feedback.
                     }
                 };
                 mazeOptionsDiv.appendChild(button);
