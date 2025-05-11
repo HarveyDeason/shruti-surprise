@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const q2Input = document.getElementById('q2');
     const q3Input = document.getElementById('q3');
     const q4Input = document.getElementById('q4');
-    const q5Input = document.getElementById('q5');
+    // q5Input is removed
     const check1 = document.getElementById('check1');
     const check2 = document.getElementById('check2');
     const check3 = document.getElementById('check3');
     const check4 = document.getElementById('check4');
-    const check5 = document.getElementById('check5');
+    // check5 is removed
 
     // Audio/Lyrics elements
     const lyricsToggle = document.getElementById('lyrics-toggle');
@@ -27,11 +27,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- CONFIGURATION FOR INITIAL QUESTIONS ---
     const initialCorrectAnswers = {
-        q1: "Answer1", // Reverted to placeholder
-        q2: "Answer2", // Replace with actual answer
-        q3: "Answer3", // Replace with actual answer
-        q4: "Answer4", // Replace with actual answer
-        q5: "Answer5"  // Replace with actual answer
+        q1: "Cupid",
+        q2: "e",
+        q3: ["patent", "provisional patent"], // Accept multiple correct answers for q3
+        q4: "Shrutie"
+        // q5 is removed
     };
     // --- END CONFIGURATION FOR INITIAL QUESTIONS ---
 
@@ -65,11 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             id: 'path2_coin',
-            description: `🛤️ Path 2 – The Video Oracle Chamber<br>Warmth and the comforting aroma of spices lead you into a cozy room. On a pedestal, a screen flickers to life, ready to play a special video message. Watch carefully!<br><br><div id="video-container" style="max-width: 100%; margin-bottom:10px;"><video id="coin-flip-video" width="100%" controls src="PXL_20250511_064659194.mp4"><p>Your browser doesn't support HTML5 video. Here is a <a href="PXL_20250511_064659194.mp4">link to the video</a> instead.</p></video></div><div style="margin-bottom:20px; text-align:left;"><button id="video-transcript-toggle" class="maze-hint-toggle" style="margin-left:0; margin-bottom:5px;">Show/Hide Transcript</button><div id="video-transcript-content" class="maze-hint-content" style="display:none; margin-left:0;"></div></div>In the video, I flip a coin four times. Listen to my script for each flip – does it hint at 'H' for Heads or 'T' for Tails? Enter the four-letter sequence you decode (e.g., HTHT).`,
+            description: `🛤️ Path 2 – The Video Oracle Chamber<br>Warmth and the comforting aroma of spices lead you into a cozy room. On a pedestal, a screen flickers to life, ready to play a special video message. Watch carefully!<br><br><div id="video-container" style="max-width: 100%; margin-bottom:10px;"><video id="coin-flip-video" width="100%" controls src="bday-vid.mp4"><p>Your browser doesn't support HTML5 video. Here is a <a href="bday-vid.mp4">link to the video</a> instead.</p></video></div><div style="margin-bottom:20px; text-align:left;"><button id="video-transcript-toggle" class="maze-hint-toggle" style="margin-left:0; margin-bottom:5px;">Show/Hide Transcript</button><div id="video-transcript-content" class="maze-hint-content" style="display:none; margin-left:0;"></div></div>In the video, I flip a coin four times. Listen to my script for each flip – does it hint at 'H' for Heads or 'T' for Tails? Enter the four-letter sequence you decode (e.g., HTHT).`,
             inputType: 'text',
             correctAnswer: 'HTHT',
             nextStageId: 'path3_mirror',
-            localVideoSrc: 'PXL_20250511_064659194.mp4', // Updated video filename
+            localVideoSrc: 'bday-vid.mp4', // Updated to new filename
             videoTranscript: `“Hope rises when you're sure of the odds. But sometimes... even the sky turns.”<br><br>“There’s talk, always talk — but who listens when the coin tumbles?”<br><br>“Hope was something I held too tightly. It broke before I could let it go.”<br><br>“Tides shift. Time bends. And trust me... the answer’s already there.”`,
             hint: "Listen closely to the words I use around each coin flip. Some words might subtly suggest 'H' or 'T' sounds or concepts."
         },
@@ -148,8 +148,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Initial Questions Logic
-    const checkInitialAnswer = (inputElement, checkElement, correctAnswer) => {
-        if (inputElement.value.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+    const checkInitialAnswer = (inputElement, checkElement, correctAnswerOrArray) => {
+        const userAnswer = inputElement.value.trim().toLowerCase();
+        let isCorrect = false;
+        if (Array.isArray(correctAnswerOrArray)) {
+            isCorrect = correctAnswerOrArray.some(ans => userAnswer === ans.toLowerCase());
+        } else {
+            isCorrect = (userAnswer === correctAnswerOrArray.toLowerCase());
+        }
+
+        if (isCorrect) {
             checkElement.style.display = 'inline';
             return true;
         } else {
@@ -163,11 +171,24 @@ document.addEventListener('DOMContentLoaded', () => {
             check1.style.display === 'inline' &&
             check2.style.display === 'inline' &&
             check3.style.display === 'inline' &&
-            check4.style.display === 'inline' &&
-            check5.style.display === 'inline';
+            check4.style.display === 'inline'; // Only check up to q4
 
         if (allCorrect) {
-            startMaze();
+            // Hide all question blocks and the main "Answer the Questions" heading
+            allQuestionBlocks.forEach(block => block.style.display = 'none');
+            if (mainQuestionsHeading) mainQuestionsHeading.style.display = 'none';
+            
+            // Show "Let the fun begin..." message
+            const funBeginsMessage = document.querySelector('.fun-begins-message');
+            if (funBeginsMessage) {
+                funBeginsMessage.style.display = 'block';
+            }
+
+            // Start the maze after a short delay
+            setTimeout(() => {
+                if (funBeginsMessage) funBeginsMessage.style.display = 'none'; // Hide message
+                startMaze();
+            }, 2000); // 2-second delay
         }
     };
 
@@ -405,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     q2Input.addEventListener('input', () => { checkInitialAnswer(q2Input, check2, initialCorrectAnswers.q2); checkAllInitialAnswers(); });
     q3Input.addEventListener('input', () => { checkInitialAnswer(q3Input, check3, initialCorrectAnswers.q3); checkAllInitialAnswers(); });
     q4Input.addEventListener('input', () => { checkInitialAnswer(q4Input, check4, initialCorrectAnswers.q4); checkAllInitialAnswers(); });
-    q5Input.addEventListener('input', () => { checkInitialAnswer(q5Input, check5, initialCorrectAnswers.q5); checkAllInitialAnswers(); });
+    // q5 event listener removed
 
     // Check for URL hash on page load
     if (window.location.hash === '#path4_find_key') {
