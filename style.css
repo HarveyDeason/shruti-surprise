@@ -154,17 +154,16 @@ h1 { font-size: 2.4em; margin-bottom: 30px; } /* Main "Answer the Questions" hea
     margin-top: 20px;
 }
 
-.final-video-container {
+.final-image-container { /* Renamed from .final-video-container */
     flex: 1 1 300px; /* Flex grow, shrink, basis */
     min-width: 280px; /* Minimum width before wrapping */
+    display: flex; /* To help center image if it's smaller than container */
+    justify-content: center;
+    align-items: center;
 }
 
-.final-video-container video {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
+/* Styles for the image itself are mostly inline in script.js for simplicity, 
+   but we can add more here if needed, e.g., max-width for the container itself */
 
 .birthday-message-container {
     flex: 1 1 300px; /* Flex grow, shrink, basis */
@@ -186,7 +185,7 @@ h1 { font-size: 2.4em; margin-bottom: 30px; } /* Main "Answer the Questions" hea
         flex-direction: column; /* Stack video and message */
         align-items: center; /* Center items when stacked */
     }
-    .final-video-container,
+    .final-image-container, /* Renamed */
     .birthday-message-container {
         flex-basis: auto; /* Allow them to take full width when stacked */
         width: 100%;

@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isFinal: true,
             description: `Congratuationssss Detective Madame Spicee!! You've solved all the puzzled and cracked all the codes, I hope you enjoyed your adventure!!<br><br>
             <div class="final-content-container">
-                <div class="final-video-container"> 
-                    <img id="final-birthday-gif" src="bday-vid-02.gif" alt="Birthday Celebration!" style="width:100%; height:auto; border-radius:8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display:block;">
+                <div class="final-image-container"> <!-- Renamed class for clarity -->
+                    <img id="final-birthday-image" src="Shruti-bday-pic.png" alt="Birthday Surprise!" style="max-width:100%; height:auto; max-height:400px; object-fit:contain; display:block; margin-left:auto; margin-right:auto; border-radius:8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                 </div>
                 <div class="birthday-message-container">
 Happy Birtdhay, my love!❣️🎉
