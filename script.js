@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img id="final-birthday-image" src="Shruti-bday-pic.png" alt="Birthday Surprise!" style="max-width:100%; height:auto; max-height:400px; object-fit:contain; display:block; margin-left:auto; margin-right:auto; border-radius:8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                 </div>
                 <div class="birthday-message-container">
-Happy Birtdhay, my love!❣️🎉
+Happy Birthday, my love!❣️🎉
 
 On your special day, I just want to take a moment to remind you how truly amazing you are. Your creativity, love, and unwaivering support makes every day a complete joy. I'm so grateful to be a part of your journey, our journey. Watching you shine is honestly nothing short of inspiring - whether its your work, your passions, or your surprise for me. 
 
