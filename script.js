@@ -34,10 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
             isFinal: true,
             description: `Congratuationssss Detective Madame Spicee!! You've solved all the puzzled and cracked all the codes, I hope you enjoyed your adventure!!<br><br>
             <div class="final-content-container">
-                <div class="final-video-container">
-                    <video id="final-birthday-video" width="100%" controls src="bday-vid-02.mp4" style="border-radius:8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                        <p>Your browser doesn't support HTML5 video. Here is a <a href="bday-vid-02.mp4">link to the video</a> instead.</p>
-                    </video>
+                <div class="final-video-container"> 
+                    <img id="final-birthday-gif" src="bday-vid-02.gif" alt="Birthday Celebration!" style="width:100%; height:auto; border-radius:8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); display:block;">
                 </div>
                 <div class="birthday-message-container">
 Happy Birtdhay, my love!❣️🎉
